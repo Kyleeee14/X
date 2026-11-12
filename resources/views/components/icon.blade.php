@@ -1,0 +1,28 @@
+@props(['name'])
+@php($paths = [
+'home'=>'M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z',
+'explore'=>'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM16 8l-3 5-5 3 3-5Z',
+'message'=>'M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-1 1v-9.5A8.5 8.5 0 0 1 11.5 3h1a8.5 8.5 0 0 1 8.5 8.5ZM7 9h10M7 13h7',
+'bookmark'=>'M6 3h12v18l-6-4-6 4Z',
+'profile'=>'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2',
+'settings'=>'M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1Z',
+'logout'=>'M9 3H4v18h5M13 7l5 5-5 5M8 12h13',
+'search'=>'M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0ZM15 15l6 6',
+'chevron'=>'m8 4 8 8-8 8',
+'down'=>'m6 9 6 6 6-6',
+'edit'=>'m15 4 5 5M4 20l1-5L17 3l4 4L9 19ZM12 20h9',
+'image'=>'M3 3h18v18H3ZM3 16l6-6 5 5 3-3 4 4M16 7h.01',
+'send'=>'m3 3 18 9-18 9 4-9ZM7 12h14',
+'arrow'=>'M4 12h16m-6-6 6 6-6 6',
+'back'=>'M20 12H4m6-6-6 6 6 6',
+'plus'=>'M12 5v14M5 12h14',
+'lock'=>'M5 10h14v11H5ZM8 10V6a4 4 0 0 1 8 0v4M12 14v3',
+'close'=>'m6 6 12 12M6 18 18 6',
+'hash'=>'M10 3 8 21M16 3l-2 18M4 8h17M3 16h17',
+'share'=>'M12 16V3m-5 5 5-5 5 5M5 13v8h14v-8',
+'comment'=>'M21 11.5a8.5 8.5 0 0 1-8.5 8.5H7l-4 2 1.2-4.4A8.5 8.5 0 1 1 21 11.5Z',
+'reply'=>'M9 17l-6-5 6-5v3h4a8 8 0 0 1 8 8v1a9 9 0 0 0-8-5H9Z',
+'heart'=>'M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z',
+'trash'=>'M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6',
+])
+<svg {{ $attributes->class(['icon']) }} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ $paths[$name] ?? $paths['plus'] }}"/></svg>

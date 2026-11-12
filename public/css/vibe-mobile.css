@@ -1,0 +1,36 @@
+/* Mobile finishing layer, loaded after vibe.css. */
+@media(max-width:600px){
+    body{background:#f6f8fc}
+    .topbar{box-shadow:0 1px 0 rgba(22,31,51,.04)}
+    .topbar-inner{height:64px;padding:0 14px;gap:10px;grid-template-columns:auto minmax(0,1fr) auto}
+    .brand{font-size:27px;letter-spacing:-1.45px}
+    .global-search{height:40px;border-radius:12px;background:#f3f6fb}
+    .account-toggle{min-width:42px;min-height:42px;justify-content:center}
+    .account-toggle img{width:32px;height:32px}
+    .app-shell,.app-shell.with-aside{padding:22px 14px calc(92px + env(safe-area-inset-bottom))}
+    .sidebar .compose-link{display:none!important}
+    .main-nav{justify-content:space-evenly;padding:7px 8px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -8px 28px rgba(25,42,77,.08)}
+    .main-nav a{position:relative;flex:1;max-width:82px;width:auto;min-height:54px;padding:6px 4px;border-radius:12px;transition:background-color .18s ease,color .18s ease,transform .18s ease}
+    .main-nav a:active{transform:scale(.94)}
+    .main-nav a.active{background:#eaf0ff;color:#315fda}
+    .sidebar .main-nav a span{font-size:9px;font-weight:650;line-height:1}
+    .main-nav .icon{width:22px;height:22px}
+    .page-heading{align-items:center}
+    .composer,.feed,.thread-original,.comment-composer,.comment-card,.bookmarks-empty,.chat-layout,.settings-section{border-color:#e3e7ef;box-shadow:0 3px 14px rgba(30,47,82,.035)}
+    .composer,.feed,.bookmarks-empty,.chat-layout{border-radius:14px}
+    .post-card{padding:18px 14px}
+    .post-card button,.post-card a[aria-label],.comment-actions button,.comment-actions a,.comment-actions summary{min-width:40px;min-height:40px}
+    .post-card .gap-6{justify-content:space-between;gap:4px}
+    .media-grid{border-radius:12px;overflow:hidden}
+    .chat-layout{height:calc(100dvh - 192px);min-height:390px}
+    .chat-contacts .person{min-height:68px}
+    .bookmarks-empty{min-height:360px}
+}
+
+@media(max-width:360px){
+    .topbar-inner{padding:0 10px;gap:7px}
+    .brand{font-size:24px}
+    .global-search input{font-size:11px}
+    .app-shell,.app-shell.with-aside{padding-left:10px;padding-right:10px}
+    .post-card{padding-left:12px;padding-right:12px}
+}
