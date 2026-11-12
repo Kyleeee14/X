@@ -157,6 +157,11 @@
             report(error.message || 'Pesan belum terkirim. Coba kirim lagi.');
         } finally { sending = false; sendButton.disabled = false; }
     });
+    document.querySelectorAll('[data-bot-option]').forEach(button => button.addEventListener('click', () => {
+        if (sending) return;
+        input.value = button.dataset.botOption;
+        form.requestSubmit();
+    }));
     document.addEventListener('visibilitychange', () => {
         clearTimeout(timer);
         if (!document.hidden) poll();

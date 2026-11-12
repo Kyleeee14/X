@@ -1,56 +1,20 @@
 @extends('layouts.app')
-@section('title', 'Pesan · Vibe')
+@section('title','Pesan · Vibe')
 @section('content')
-<div class="page-heading">
-    <h1>Pesan</h1><x-icon name="message" />
-</div>
-<div class="chat-layout {{ $user ? 'has-thread' : '' }}">
-    <aside class="chat-contacts" aria-label="Daftar percakapan">
-        <div class="contact-search">
-            <form action="{{ route('messages.index') }}"><input name="q" placeholder="Cari orang"
-                    aria-label="Cari teman" value="{{ request('q') }}"><button type="submit" aria-label="Cari"><x-icon
-                        name="search" /></button></form>
-        </div>
-        @forelse($people as $person)
-        @php($preview = $previews->get($person->last_message_id))
-        <a class="person {{ $user?->id === $person->id ? 'active' : '' }}" href="{{ route('messages.show', $person) }}"
-            @if($user?->id === $person->id) aria-current="page" @endif><img src="{{ $person->avatar_url }}"
-                alt=""><span><strong>{{ $person->name }}</strong><small>{{ $preview ? ($preview->sender_id === auth()->id() ? 'Kamu: ' : '') . $preview->body : '@' . $person->username }}</small></span>@if($preview && $preview->recipient_id === auth()->id() && !$preview->read_at)<i
-                class="unread-dot" aria-label="Belum dibaca"></i>@endif</a>
-        @empty<p class="empty-state">Tidak ada pengguna ditemukan.</p>@endforelse
-        {{ $people->links('pagination::simple-tailwind') }}
-    </aside>
-    <section class="chat-thread">@if($user)
-        <div class="chat-title"><a class="icon-button chat-back" href="{{ route('messages.index') }}"
-                aria-label="Kembali ke daftar pesan"><x-icon name="back" /></a><a class="person"
-                href="{{ route('profile.show', $user) }}"><img src="{{ $user->avatar_url }}"
-                    alt=""><span><strong>{{ $user->name }}</strong><small>{{ '@' . $user->username }}</small></span></a><a
-                class="icon-button" href="{{ route('profile.show', $user) }}"
-                aria-label="Lihat profil {{ $user->name }}"><x-icon name="profile" /></a></div>
-        @if($messages->hasMorePages())<a class="history-link" href="{{ $messages->nextPageUrl() }}">Pesan
-        sebelumnya</a>@endif
-        @if($messages->currentPage() > 1)<a class="history-link" href="{{ route('messages.show', $user) }}">Kembali ke
-        pesan terbaru</a>@endif
-        <div class="chat-messages" id="chat-messages" data-me="{{ auth()->id() }}"
-            data-after="{{ $messages->max('id') ?? 0 }}" @if($messages->currentPage() === 1)
-            data-poll="{{ route('messages.poll', $user) }}" @endif role="log" aria-live="polite"
-            aria-relevant="additions" aria-label="Percakapan">
-            @forelse($messages->getCollection()->reverse() as $message)
-                <div data-message-id="{{ $message->id }}"
-                    class="bubble {{ $message->sender_id === auth()->id() ? 'mine' : '' }}">
-                    <span>{{ $message->body }}</span><time
-                        datetime="{{ $message->created_at->toISOString() }}">{{ $message->created_at->format('d M · H:i') }}</time>
-            </div>@empty<p class="muted" id="chat-empty">Belum ada pesan.</p>@endforelse
-        </div>
-        <form class="chat-compose" id="chat-compose" action="{{ route('messages.store', $user) }}" method="POST">
-            @csrf<textarea name="body" aria-label="Tulis pesan" placeholder="Tulis pesan…" rows="1" required
-                maxlength="2000">{{ old('body') }}</textarea><button class="primary" type="submit"
-                aria-label="Kirim pesan"><x-icon name="send" /></button></form>
-        <p class="chat-status" id="chat-status" role="status" hidden></p>
-    @else<div class="empty-chat empty-state"><x-icon name="message" />
-            <h2>Pilih percakapan</h2>
-            <p>Cari nama untuk mulai mengirim pesan.</p>
-        </div>@endif
-    </section>
-</div>
+<div class="page-heading"><h1>Pesan</h1><x-icon name="message"/></div>
+<div class="chat-layout {{ $user ? 'has-thread' : '' }}"><aside class="chat-contacts" aria-label="Daftar percakapan"><div class="contact-search"><form action="{{ route('messages.index') }}"><input name="q" placeholder="Cari orang" aria-label="Cari teman" value="{{ request('q') }}"><button type="submit" aria-label="Cari"><x-icon name="search"/></button></form></div>
+@forelse($people as $person)
+@php($preview = $previews->get($person->last_message_id))
+<a class="person {{ $user?->id === $person->id ? 'active' : '' }}" href="{{ route('messages.show',$person) }}" @if($user?->id === $person->id) aria-current="page" @endif><img src="{{ $person->avatar_url }}" alt=""><span><strong class="{{ $person->is_admin ? 'system-name' : '' }}">{{ $person->name }} @if($person->is_admin)<i class="system-badge">BOT · ADMIN</i>@endif</strong><small>{{ $preview ? ($preview->sender_id === auth()->id() ? 'Kamu: ' : '').$preview->body : ($person->is_admin ? 'Sistem Vibe' : '@'.$person->username) }}</small></span>@if($preview && $preview->recipient_id === auth()->id() && !$preview->read_at)<i class="unread-dot" aria-label="Belum dibaca"></i>@endif</a>
+@empty<p class="empty-state">Tidak ada pengguna ditemukan.</p>@endforelse
+{{ $people->links('pagination::simple-tailwind') }}</aside>
+<section class="chat-thread">@if($user)
+<div class="chat-title"><a class="icon-button chat-back" href="{{ route('messages.index') }}" aria-label="Kembali ke daftar pesan"><x-icon name="back"/></a><a class="person" href="{{ route('profile.show',$user) }}"><img src="{{ $user->avatar_url }}" alt=""><span><strong class="{{ $user->is_admin ? 'system-name' : '' }}">{{ $user->name }} @if($user->is_admin)<i class="system-badge">BOT · ADMIN</i>@endif</strong><small>{{ $user->is_admin ? 'Sistem Vibe' : '@'.$user->username }}</small></span></a><a class="icon-button" href="{{ route('profile.show',$user) }}" aria-label="Lihat profil {{ $user->name }}"><x-icon name="profile"/></a></div>
+@if($user->is_admin)<div class="bot-options" aria-label="Pilihan bantuan"><button type="button" data-bot-option="Laporkan postingan">Laporkan postingan</button><button type="button" data-bot-option="Masalah akun">Masalah akun</button><button type="button" data-bot-option="Laporkan bug">Laporkan bug</button><button type="button" data-bot-option="Panduan fitur">Panduan fitur</button></div>@endif
+@if($messages->hasMorePages())<a class="history-link" href="{{ $messages->nextPageUrl() }}">Pesan sebelumnya</a>@endif
+@if($messages->currentPage() > 1)<a class="history-link" href="{{ route('messages.show',$user) }}">Kembali ke pesan terbaru</a>@endif
+<div class="chat-messages" id="chat-messages" data-me="{{ auth()->id() }}" data-after="{{ $messages->max('id') ?? 0 }}" @if($messages->currentPage() === 1) data-poll="{{ route('messages.poll',$user) }}" @endif role="log" aria-live="polite" aria-relevant="additions" aria-label="Percakapan">
+@forelse($messages->getCollection()->reverse() as $message)<div data-message-id="{{ $message->id }}" class="bubble {{ $message->sender_id === auth()->id() ? 'mine' : '' }}"><span>{{ $message->body }}</span><time datetime="{{ $message->created_at->toISOString() }}">{{ $message->created_at->format('d M · H:i') }}</time></div>@empty<p class="muted" id="chat-empty">Belum ada pesan.</p>@endforelse</div>
+<form class="chat-compose" id="chat-compose" action="{{ route('messages.store',$user) }}" method="POST">@csrf<textarea name="body" aria-label="Tulis pesan" placeholder="Tulis pesan…" rows="1" required maxlength="2000">{{ old('body') }}</textarea><button class="primary" type="submit" aria-label="Kirim pesan"><x-icon name="send"/></button></form><p class="chat-status" id="chat-status" role="status" hidden></p>
+@else<div class="empty-chat empty-state"><x-icon name="message"/><h2>Pilih percakapan</h2><p>Cari nama untuk mulai mengirim pesan.</p></div>@endif</section></div>
 @endsection

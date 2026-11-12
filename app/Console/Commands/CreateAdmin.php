@@ -21,8 +21,13 @@ class CreateAdmin extends Command
         }
 
         if ($user = User::where('email', $email)->first()) {
-            $user->forceFill(['is_admin' => true])->save();
-            $this->info("Akun {$email} sekarang memiliki akses admin.");
+            $user->forceFill([
+                'is_admin' => true,
+                'avatar' => '/images/admin/vibe-security-avatar.png',
+                'header_image' => '/images/admin/vibe-security-banner.png',
+                'bio' => 'Akun keamanan dan moderasi resmi Vibe.',
+            ])->save();
+            $this->info("Akun {$email} sekarang memiliki akses dan identitas visual admin.");
             return self::SUCCESS;
         }
 
@@ -40,6 +45,12 @@ class CreateAdmin extends Command
             'email' => $email,
             'password' => $password,
         ])->forceFill(['is_admin' => true])->save();
+
+        User::where('email', $email)->update([
+            'avatar' => '/images/admin/vibe-security-avatar.png',
+            'header_image' => '/images/admin/vibe-security-banner.png',
+            'bio' => 'Akun keamanan dan moderasi resmi Vibe.',
+        ]);
 
         $this->newLine();
         $this->info('Akun admin berhasil dibuat. Simpan kredensial berikut sekarang:');

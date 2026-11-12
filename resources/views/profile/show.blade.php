@@ -32,7 +32,7 @@
                 <!-- Tombol Follow/Unfollow -->
                 <!-- Hanya tampil untuk user yang sudah login dan bukan profile sendiri -->
                 @auth
-                    @if($user->id !== auth()->id())
+                    @if($user->id !== auth()->id() && ! $user->is_admin)
                         <div class="ml-auto mb-2"><a class="primary" href="{{ route('messages.show', $user) }}">Kirim pesan</a>
                             @if($isFollowing)
                                 <!-- Tombol Unfollow jika sudah following -->
@@ -60,7 +60,8 @@
             <!-- Info User -->
             <!-- Nama dan bio user -->
             <div class="mb-4">
-                <h1 class="text-xl font-bold text-gray-900">{{ $user->name }}</h1>
+                <h1 class="text-xl font-bold text-gray-900 {{ $user->is_admin ? 'system-name' : '' }}">{{ $user->name }} @if($user->is_admin)<span class="system-badge">BOT · ADMIN</span>@endif</h1>
+                @if($user->is_admin)<p class="system-label">Sistem moderasi resmi Vibe</p>@endif
             </div>
             
             <!-- Bio User -->
