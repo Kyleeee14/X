@@ -9,6 +9,15 @@
         clearTimeout(toastTimer);
         toastTimer = setTimeout(() => { toast.hidden = true; }, 3500);
     }
+    window.prepareTakedown = form => {
+        const reason = window.prompt('Alasan takedown postingan:');
+        if (!reason || reason.trim().length < 3) return false;
+        form.elements.moderation_reason.value = reason.trim();
+        const button = form.querySelector('button[type=submit]');
+        button.disabled = true;
+        button.setAttribute('aria-busy', 'true');
+        return true;
+    };
     // Account controls stay in the header, including on small screens.
     const toggle = document.getElementById('account-toggle');
     const menu = document.getElementById('account-dropdown');

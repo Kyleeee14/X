@@ -24,5 +24,6 @@
 'reply'=>'M9 17l-6-5 6-5v3h4a8 8 0 0 1 8 8v1a9 9 0 0 0-8-5H9Z',
 'heart'=>'M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z',
 'trash'=>'M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6',
+'shield'=>'M12 3 20 6v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6ZM9 12l2 2 4-5',
 ])
 <svg {{ $attributes->class(['icon']) }} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ $paths[$name] ?? $paths['plus'] }}"/></svg>

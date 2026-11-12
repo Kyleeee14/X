@@ -77,6 +77,15 @@
                         </svg>
                     </button>
                 </form>
+            @elseif(auth()->user()?->is_admin)
+                <form action="{{ route('tweets.destroy', $tweet) }}" method="POST" class="inline moderation-form" onsubmit="return prepareTakedown(this)">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="moderation_reason">
+                    <button type="submit" class="text-gray-500 hover:text-red-500 transition-colors" aria-label="Turunkan postingan sebagai admin" title="Takedown">
+                        <x-icon name="shield"/>
+                    </button>
+                </form>
             @endif
         </div>
 

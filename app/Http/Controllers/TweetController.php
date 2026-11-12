@@ -10,6 +10,7 @@ use App\Models\ReplyLike;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
+use App\Models\ModerationAction;
 
 class TweetController extends Controller
 {
@@ -308,15 +309,36 @@ class TweetController extends Controller
 
     public function destroy(Tweet $tweet)
     {
-        // Check if user owns this tweet
-        if ($tweet->user_id !== Auth::id()) {
+        $actor = Auth::user();
+        $isOwner = $tweet->user_id === $actor->id;
+        $isAdminTakedown = ! $isOwner && $actor->is_admin;
+
+        if (! $isOwner && ! $isAdminTakedown) {
             abort(403, 'Unauthorized action.');
+        }
+
+        if ($isAdminTakedown) {
+            request()->validate([
+                'moderation_reason' => ['required', 'string', 'min:3', 'max:500'],
+            ]);
+
+            ModerationAction::create([
+                'moderator_id' => $actor->id,
+                'author_id' => $tweet->user_id,
+                'tweet_id' => $tweet->id,
+                'action' => 'tweet_takedown',
+                'reason' => request('moderation_reason'),
+                'content_snapshot' => $tweet->content,
+                'media_snapshot' => [
+                    'image' => $tweet->image,
+                    'media' => $tweet->media,
+                ],
+            ]);
         }
 
         $tweet->replies()->get()->each->delete();
         $tweet->delete();
 
-        // Redirect back
-        return redirect()->back()->with('success', 'Tweet deleted successfully!');
+        return redirect()->back()->with('success', $isAdminTakedown ? 'Postingan diturunkan oleh admin.' : 'Postingan dihapus.');
     }
 }
