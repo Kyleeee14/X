@@ -7,7 +7,7 @@
 
     @auth
     <div id="composer" class="composer">
-        <form action="{{ route('tweets.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="tweet-composer-form" action="{{ route('tweets.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="composer-main"><img src="{{ auth()->user()->avatar_url }}" alt=""><textarea name="content" rows="3" maxlength="280" placeholder="Apa yang lagi kamu pikirin?">{{ old('content') }}</textarea></div>
             @error('content')<p class="media-error">{{ $message }}</p>@enderror
@@ -55,6 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
     fileInput?.addEventListener('change', event => {
         files = [...files, ...event.target.files].filter((file, index, all) => all.findIndex(other => other.name === file.name && other.size === file.size && other.lastModified === file.lastModified) === index).slice(0, 8);
         sync(); draw();
+    });
+    const composerForm = document.getElementById('tweet-composer-form');
+    composerForm?.addEventListener('submit', () => {
+        const button = composerForm.querySelector('button[type="submit"]');
+        if (!button || button.disabled) return;
+        button.disabled = true;
+        button.dataset.originalText = button.textContent;
+        button.textContent = 'Mengirim…';
+        button.setAttribute('aria-busy', 'true');
     });
 });
 </script>

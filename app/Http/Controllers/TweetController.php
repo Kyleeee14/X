@@ -8,6 +8,8 @@ use App\Models\Like;
 use App\Models\Reply;
 use App\Models\ReplyLike;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
 
 class TweetController extends Controller
 {
@@ -58,6 +60,25 @@ class TweetController extends Controller
             'media.*' => ['file', 'mimes:jpg,jpeg,png,gif,webp,mp4,webm', 'max:25600'],
         ]);
 
+        $content = trim((string) $request->input('content', ''));
+        $mediaSignature = collect($request->file('media', []))
+            ->map(fn ($file) => [$file->getClientOriginalName(), $file->getSize()])
+            ->values()
+            ->all();
+        $submissionKey = 'tweet-submit:'.hash('sha256', json_encode([
+            Auth::id(),
+            $content,
+            $request->input('quote_tweet_id'),
+            $request->input('parent_comment_id'),
+            $mediaSignature,
+        ]));
+
+        if (! Cache::add($submissionKey, true, now()->addSeconds(10))) {
+            throw ValidationException::withMessages([
+                'content' => 'Postingan yang sama baru saja dikirim. Tunggu sebentar sebelum mencoba lagi.',
+            ]);
+        }
+
         if ($request->filled('parent_comment_id')) {
             $parent = Tweet::findOrFail($request->parent_comment_id);
             abort_unless($request->filled('quote_tweet_id') && (int) $parent->quote_tweet_id === (int) $request->quote_tweet_id, 422, 'Reply tidak sesuai dengan percakapan.');
@@ -68,7 +89,7 @@ class TweetController extends Controller
             // This is a reply to a comment
             $tweet = Tweet::create([
                 'user_id' => Auth::id(),
-                'content' => $request->input('content', ''),
+                'content' => $content,
                 'quote_tweet_id' => $request->quote_tweet_id, // Original tweet ID
                 'parent_comment_id' => $request->parent_comment_id // Parent comment ID
             ]);
@@ -76,7 +97,7 @@ class TweetController extends Controller
             // This is a comment on a tweet
             $tweet = Tweet::create([
                 'user_id' => Auth::id(),
-                'content' => $request->input('content', ''),
+                'content' => $content,
                 'quote_tweet_id' => $request->quote_tweet_id,
                 'parent_comment_id' => null
             ]);
@@ -84,7 +105,7 @@ class TweetController extends Controller
             // This is a normal Tweet
             $tweet = Tweet::create([
                 'user_id' => Auth::id(),
-                'content' => $request->input('content', ''),
+                'content' => $content,
                 'quote_tweet_id' => null,
                 'parent_comment_id' => null
             ]);
