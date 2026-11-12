@@ -7,7 +7,7 @@
 @unless($authScreen)<form class="global-search" action="{{ route('search') }}"><x-icon name="search"/><input name="q" aria-label="Cari di Vibe" placeholder="Cari di Vibe" value="{{ request('q') }}"></form>@endunless
 @auth
 <div class="account-menu"><button id="account-toggle" class="account-toggle" aria-expanded="false" aria-controls="account-dropdown" aria-label="Menu akun"><img src="{{ auth()->user()->avatar_url }}" alt=""><span>{{ auth()->user()->name }}</span><x-icon name="down"/></button>
-<div id="account-dropdown" class="account-dropdown" hidden><div class="account-summary"><strong class="{{ auth()->user()->is_admin ? 'system-name' : '' }}">{{ auth()->user()->name }} @if(auth()->user()->is_admin)<i class="system-badge">BOT · ADMIN</i>@endif</strong><small>{{ auth()->user()->is_admin ? 'Sistem Vibe' : '@'.auth()->user()->username }}</small></div>
+<div id="account-dropdown" class="account-dropdown" hidden><div class="account-summary"><strong class="{{ auth()->user()->is_admin ? 'system-name' : '' }}">{{ auth()->user()->name }} @if(auth()->user()->is_admin)<i class="system-badge">BOT</i>@endif</strong><small>{{ auth()->user()->is_admin ? 'Sistem Vibe' : '@'.auth()->user()->username }}</small></div>
 <a href="{{ route('profile.show', auth()->user()) }}"><x-icon name="profile"/>Lihat profil</a><a href="{{ route('profile.edit') }}"><x-icon name="settings"/>Pengaturan</a><form method="POST" action="{{ route('logout') }}">@csrf<button type="submit"><x-icon name="logout"/>Keluar</button></form></div></div>
 @else<div class="auth-links"><a href="{{ route('login') }}">Masuk</a><a class="primary" href="{{ route('register') }}">Daftar</a></div>@endauth
 </div></header>

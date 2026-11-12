@@ -4,7 +4,7 @@
 <section class="comments-page">
     <header class="comments-heading"><a class="icon-button" href="{{ route('home') }}" aria-label="Kembali ke beranda"><x-icon name="back"/></a><div><h1>Percakapan</h1><p>{{ $tweet->quotes->count() }} komentar</p></div></header>
     <article class="thread-original">
-        <div class="comment-author"><a href="{{ route('profile.show', $tweet->user) }}"><img src="{{ $tweet->user->avatar_url }}" alt=""></a><div><a href="{{ route('profile.show', $tweet->user) }}"><strong class="{{ $tweet->user->is_admin ? 'system-name' : '' }}">{{ $tweet->user->name }}</strong>@if($tweet->user->is_admin)<span class="system-badge">BOT · ADMIN</span>@endif</a><span>{{ $tweet->user->is_admin ? 'Sistem Vibe' : '@'.$tweet->user->username }} · {{ $tweet->created_at->diffForHumans() }}</span></div></div>
+        <div class="comment-author"><a href="{{ route('profile.show', $tweet->user) }}"><img src="{{ $tweet->user->avatar_url }}" alt=""></a><div><a href="{{ route('profile.show', $tweet->user) }}"><strong class="{{ $tweet->user->is_admin ? 'system-name' : '' }}">{{ $tweet->user->name }}</strong>@if($tweet->user->is_admin)<span class="system-badge">BOT</span>@endif</a><span>{{ $tweet->user->is_admin ? 'Sistem Vibe' : '@'.$tweet->user->username }} · {{ $tweet->created_at->diffForHumans() }}</span></div></div>
         <div class="thread-original-content">{!! $tweet->getContentWithParsedTags() !!}</div>
         @if($tweet->image)<img class="thread-media" src="{{ $tweet->image }}" alt="Gambar postingan">@endif
         @include('partials.post-media')

@@ -1,7 +1,7 @@
 @php($depth = $depth ?? 0)
 <div class="comment-node" id="comment-{{ $comment->id }}" data-depth="{{ $depth }}">
 <article class="comment-card">
-    <div class="comment-author"><a href="{{ route('profile.show', $comment->user) }}"><img src="{{ $comment->user->avatar_url }}" alt=""></a><div><a href="{{ route('profile.show', $comment->user) }}"><strong class="{{ $comment->user->is_admin ? 'system-name' : '' }}">{{ $comment->user->name }}</strong>@if($comment->user->is_admin)<span class="system-badge">BOT · ADMIN</span>@endif</a><span>{{ $comment->user->is_admin ? 'Sistem Vibe' : '@'.$comment->user->username }} · {{ $comment->created_at->diffForHumans() }}</span></div></div>
+    <div class="comment-author"><a href="{{ route('profile.show', $comment->user) }}"><img src="{{ $comment->user->avatar_url }}" alt=""></a><div><a href="{{ route('profile.show', $comment->user) }}"><strong class="{{ $comment->user->is_admin ? 'system-name' : '' }}">{{ $comment->user->name }}</strong>@if($comment->user->is_admin)<span class="system-badge">BOT</span>@endif</a><span>{{ $comment->user->is_admin ? 'Sistem Vibe' : '@'.$comment->user->username }} · {{ $comment->created_at->diffForHumans() }}</span></div></div>
     <div class="comment-body">{!! $comment->getContentWithParsedTags() !!}</div>
     @if($comment->image)<img class="comment-media" src="{{ $comment->image }}" alt="Gambar komentar">@endif
     <div class="comment-actions">

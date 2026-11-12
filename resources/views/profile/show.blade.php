@@ -60,7 +60,7 @@
             <!-- Info User -->
             <!-- Nama dan bio user -->
             <div class="mb-4">
-                <h1 class="text-xl font-bold text-gray-900 {{ $user->is_admin ? 'system-name' : '' }}">{{ $user->name }} @if($user->is_admin)<span class="system-badge">BOT · ADMIN</span>@endif</h1>
+                <h1 class="text-xl font-bold text-gray-900 {{ $user->is_admin ? 'system-name' : '' }}">{{ $user->name }} @if($user->is_admin)<span class="system-badge">BOT</span>@endif</h1>
                 @if($user->is_admin)<p class="system-label">Sistem moderasi resmi Vibe</p>@endif
             </div>
             

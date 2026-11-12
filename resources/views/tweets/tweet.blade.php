@@ -17,7 +17,7 @@
             <a href="{{ route('profile.show', $tweet->user) }}" class="font-bold text-gray-900 hover:underline {{ $tweet->user->is_admin ? 'system-name' : '' }}">
                 {{ $tweet->user->name ?? 'User' }}
             </a>
-            @if($tweet->user->is_admin)<span class="system-badge">BOT · ADMIN</span>@endif
+            @if($tweet->user->is_admin)<span class="system-badge">BOT</span>@endif
             <span class="text-gray-500">·</span>
             <span class="text-gray-500 text-sm">{{ $tweet->created_at->diffForHumans() }}</span>
         </div>
