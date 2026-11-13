@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token() }}"><title>@yield('title', 'Vibe')</title>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token() }}"><title>@yield('title', 'Vibe')</title><link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=1"><link rel="alternate icon" href="{{ asset('favicon.svg') }}?v=1">
 <link rel="stylesheet" href="{{ asset('css/app.css') }}"><link rel="stylesheet" href="{{ asset('css/vibe.css') }}?v=6"><link rel="stylesheet" href="{{ asset('css/vibe-mobile.css') }}?v=1"><link rel="stylesheet" href="{{ asset('css/admin-system.css') }}?v=1"><script defer src="{{ asset('js/vibe.js') }}?v=3"></script><script defer src="{{ asset('js/alpine.min.js') }}"></script></head>
 @php($authScreen = request()->routeIs('login', 'register'))
 <body class="{{ $authScreen ? 'auth-screen' : '' }}"><a class="skip-link" href="#main">Lewati navigasi</a>
